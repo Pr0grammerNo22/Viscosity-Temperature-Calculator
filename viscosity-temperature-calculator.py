@@ -1,1 +1,51 @@
+# This program calculates the viscosity temperatur graph
+# with the Ubbelohde-Walther-Algorithm
 
+import math
+
+# Calculate the viscosity at a specific temperature
+def get_visc(visc1, visc2, temp, temp1=40, temp2=100):
+    # Convert temperatures to Kelvin
+    temp = celsius_to_kelvin(temp)
+    temp1 = celsius_to_kelvin(temp1)
+    temp2 = celsius_to_kelvin(temp2)
+
+    # Calculate the W for both viscosities
+    w1 = calc_w(visc1)
+    w2 = calc_w(visc2)
+
+    # Calculate m
+    m = calc_m(w1, w2, temp1, temp2)
+
+    # Calculate W for specific temperature
+    w = w1 + m * (log10(temp1) - log10(temp))
+
+    # Convert W to viscosity
+    visc = w_to_visc(w)
+
+    return visc
+
+def celsius_to_kelvin(temp):
+    return temp + 273.15
+
+def calc_w(visc):
+    # W = log(log(visc + 0.8))
+    return log10(log10(visc+0.8))
+
+def calc_m(w1, w2, temp1, temp2):
+    return (w1 - w2) / (log10(temp2) - log10(temp1))
+
+def w_to_visc(w):
+    return math.pow(10, math.pow(10, w)) - 0.8
+
+def log10(num):
+    return math.log(num, 10)
+
+
+if __name__ == '__main__':
+    visc1 = 327
+    temp1 = 20
+    visc2 = 11.8
+    temp2 = 99
+    temp = 150
+    print(get_visc(visc1, visc2, temp, temp1, temp2))
