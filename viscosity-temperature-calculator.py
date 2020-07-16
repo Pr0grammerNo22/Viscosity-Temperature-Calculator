@@ -2,6 +2,27 @@
 # with the Ubbelohde-Walther-Algorithm
 
 import math
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Get the Viscosity Temperature Plot with linear axis scaling
+#### x1: x axis minimum
+#### x2: x axis maximum
+#### n: number of values on the x axis
+def get_visc_temp_graph_lin(visc1, visc2, x1, x2, n=50, temp1=40, temp2=100):
+    x_values = np.linspace(x1, x2, n)
+    y_values = []
+    for x in x_values:
+        visc = get_visc(visc1, visc2, x, temp1, temp2)
+        y_values.append(visc)
+    plot_visc_temp_graph_lin(x_values, y_values, x1, x2)
+
+# Plot the Viscosity Temperature Graph with linear axis scaling
+def plot_visc_temp_graph_lin(x_values, y_values, x1, x2):
+    plt.plot(x_values, y_values)
+    plt.xlim(x1, x2)
+    plt.grid()
+    plt.show()
 
 # Calculate the viscosity at a specific temperature
 def get_visc(visc1, visc2, temp, temp1=40, temp2=100):
@@ -48,4 +69,8 @@ if __name__ == '__main__':
     visc2 = 11.8
     temp2 = 99
     temp = 150
+    x1 = 0
+    x2 = 140
+    n = 50
     print(get_visc(visc1, visc2, temp, temp1, temp2))
+    get_visc_temp_graph_lin(visc1, visc2, x1, x2, n, temp1, temp2)
